@@ -19,7 +19,7 @@ class WorkersPage extends StatefulHookConsumerWidget {
 class _WorkersPageState extends ConsumerState<WorkersPage> {
   @override
   Widget build(BuildContext context) {
-    final alls = ref.watch(getAllEmployeesPfrovider);
+    final alls = ref.watch(getAllEmployeesProvider);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.8,

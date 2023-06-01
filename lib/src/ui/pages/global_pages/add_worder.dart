@@ -9,7 +9,9 @@ import 'package:master_brother/src/repo/models/employee_model.dart';
 import 'package:master_brother/src/utils/constants/employees.dart';
 
 class AddWorkerPage extends HookConsumerWidget {
-  const AddWorkerPage({super.key});
+  final bool isAdmin;
+
+  const AddWorkerPage({super.key, this.isAdmin = false});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -63,12 +65,15 @@ class AddWorkerPage extends HookConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: List.generate(
-                                  Employee.directorEmployees.length,
+                                  isAdmin
+                                      ? Employee.adminEmployees.length
+                                      : Employee.directorEmployees.length,
                                   (index) {
                                     return GestureDetector(
                                       onTap: () {
-                                        selectedEmployee.value =
-                                            Employee.directorEmployees[index];
+                                        selectedEmployee.value = isAdmin
+                                            ? Employee.adminEmployees[index]
+                                            : Employee.directorEmployees[index];
                                         Navigator.pop(context);
                                       },
                                       child: SizedBox(
@@ -76,8 +81,12 @@ class AddWorkerPage extends HookConsumerWidget {
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            Employee
-                                                .directorEmployees[index].name,
+                                            isAdmin
+                                                ? Employee
+                                                    .adminEmployees[index].name
+                                                : Employee
+                                                    .directorEmployees[index]
+                                                    .name,
                                             style: const TextStyle(
                                               color: Colors.white,
                                             ),
@@ -173,4 +182,3 @@ class AddWorkerPage extends HookConsumerWidget {
     );
   }
 }
-

@@ -26,7 +26,7 @@ class AddEmployeeLoadingWidget extends HookConsumerWidget {
         data: (data) {
           log("$data");
           if (data) {
-            ref.refresh(getAllEmployeesPfrovider);
+            ref.refresh(getAllEmployeesProvider);
             Future.delayed(const Duration(seconds: 2), () {
               Navigator.pop(context);
             }).then((value) {

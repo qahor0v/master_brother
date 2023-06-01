@@ -35,7 +35,7 @@ final addEmployee = FutureProvider.family((ref, EmployeeModel model) async {
   return result;
 });
 
-final getAllEmployeesPfrovider = FutureProvider((ref) async {
+final getAllEmployeesProvider = FutureProvider((ref) async {
   final result = await AppFirestore(ref).getAllEmployees();
   return result;
 });

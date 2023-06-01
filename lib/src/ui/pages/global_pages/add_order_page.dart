@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:master_brother/src/repo/models/product_model.dart';
+import 'package:master_brother/src/ui/screens/global_screens/product_list_builder.dart';
 import 'package:master_brother/src/ui/widgets/helper_box/sized_box.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/app_button.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/app_textfield.dart';
 import 'package:master_brother/src/ui/widgets/title_text_widget.dart';
 import 'package:master_brother/src/utils/constants/app_colors.dart';
-import 'package:master_brother/src/utils/constants/test_resources.dart';
 
 class AddOrderPage extends HookConsumerWidget {
   const AddOrderPage({super.key});
@@ -264,7 +264,7 @@ class AddOrderPage extends HookConsumerWidget {
   }
 }
 
-class SelectProduct extends StatelessWidget {
+class SelectProduct extends HookConsumerWidget {
   final ValueNotifier<ProductModel?> product;
 
   const SelectProduct({
@@ -273,10 +273,10 @@ class SelectProduct extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return GestureDetector(
       onTap: () {
-        onTap(product, context);
+        onTap(product, context, ref);
       },
       child: ListTile(
         title: Text(
@@ -296,37 +296,13 @@ class SelectProduct extends StatelessWidget {
     );
   }
 
-  void onTap(ValueNotifier<ProductModel?> product, BuildContext context) {
+  void onTap(ValueNotifier<ProductModel?> product, BuildContext context,
+      WidgetRef ref) {
     showDialog(
+
       context: context,
       builder: (context) {
-        return Dialog(
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            color: kBgColor,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: TestSources.products.map((e) {
-                return ListTile(
-                  leading: const Icon(
-                    Icons.format_color_fill_rounded,
-                    color: Colors.white,
-                  ),
-                  title: Text(
-                    e.name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  onTap: () {
-                    product.value = e;
-                    Navigator.pop(context);
-                  },
-                );
-              }).toList(),
-            ),
-          ),
-        );
+        return ProductDialogListWidget(product: product);
       },
     );
   }

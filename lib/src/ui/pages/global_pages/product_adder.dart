@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:master_brother/src/data/remote/firestore_services.dart';
+import 'package:master_brother/src/data/remote/product_services.dart';
 import 'package:master_brother/src/repo/models/product_model.dart';
 import 'package:master_brother/src/repo/providers/product_providers.dart';
 import 'package:master_brother/src/ui/widgets/helper_box/sized_box.dart';
