@@ -5,7 +5,7 @@ import 'package:master_brother/src/ui/widgets/helper_widgets/app_button.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/app_textfield.dart';
 import 'package:master_brother/src/ui/widgets/loadings/add_employee_loading.dart';
 import 'package:master_brother/src/utils/constants/app_colors.dart';
-import 'package:master_brother/src/utils/constants/employee_model.dart';
+import 'package:master_brother/src/repo/models/employee_model.dart';
 import 'package:master_brother/src/utils/constants/employees.dart';
 
 class AddWorkerPage extends HookConsumerWidget {

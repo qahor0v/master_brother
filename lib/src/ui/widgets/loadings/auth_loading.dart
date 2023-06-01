@@ -10,7 +10,7 @@ import 'package:master_brother/src/ui/pages/sclader_pages/sclader_home_page.dart
 import 'package:master_brother/src/ui/pages/seller_pages/seller_page_home.dart';
 import 'package:master_brother/src/utils/constants/app_colors.dart';
 import 'package:master_brother/src/utils/constants/assets_paths.dart';
-import 'package:master_brother/src/utils/constants/employee_model.dart';
+import 'package:master_brother/src/repo/models/employee_model.dart';
 import 'package:master_brother/src/utils/constants/employees.dart';
 
 

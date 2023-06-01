@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:firedart/firestore/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:master_brother/src/repo/models/product_model.dart';
-import 'package:master_brother/src/utils/constants/employee_model.dart';
+import 'package:master_brother/src/repo/models/employee_model.dart';
 import 'package:master_brother/src/utils/constants/employees.dart';
 
 class AppFirestore {

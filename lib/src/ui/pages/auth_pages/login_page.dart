@@ -8,7 +8,7 @@ import 'package:master_brother/src/ui/widgets/helper_box/sized_box.dart';
 import 'package:master_brother/src/ui/widgets/loadings/auth_loading.dart';
 import 'package:master_brother/src/ui/widgets/text_field.dart';
 import 'package:master_brother/src/utils/constants/app_colors.dart';
-import 'package:master_brother/src/utils/constants/employee_model.dart';
+import 'package:master_brother/src/repo/models/employee_model.dart';
 import 'package:master_brother/src/utils/constants/employees.dart';
 
 class LoginPage extends HookConsumerWidget {

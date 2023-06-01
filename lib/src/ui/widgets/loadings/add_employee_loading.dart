@@ -7,7 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:master_brother/src/repo/providers/employee_providers.dart';
 import 'package:master_brother/src/utils/constants/app_colors.dart';
 import 'package:master_brother/src/utils/constants/assets_paths.dart';
-import 'package:master_brother/src/utils/constants/employee_model.dart';
+import 'package:master_brother/src/repo/models/employee_model.dart';
 
 
 class AddEmployeeLoadingWidget extends HookConsumerWidget {

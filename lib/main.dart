@@ -1,12 +1,15 @@
- import 'package:flutter/material.dart';
+ import 'package:firedart/firestore/firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:master_brother/src/config/router/app_router.dart';
 import 'package:master_brother/src/ui/pages/auth_pages/start_page.dart';
 import 'package:master_brother/src/utils/constants/app_colors.dart';
+import 'package:master_brother/src/utils/constants/firebase_keys.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Firestore.initialize(appID);
    runApp(const ProviderScope(child: MyApp()));
 }
 

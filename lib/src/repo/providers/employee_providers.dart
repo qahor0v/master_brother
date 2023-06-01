@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:master_brother/src/data/local/local_db_services.dart';
 import 'package:master_brother/src/data/remote/firestore_services.dart';
-import 'package:master_brother/src/utils/constants/employee_model.dart';
+import 'package:master_brother/src/repo/models/employee_model.dart';
 import 'package:master_brother/src/utils/constants/employees.dart';
 import 'package:riverpod/riverpod.dart';
 

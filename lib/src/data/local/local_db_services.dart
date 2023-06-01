@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:master_brother/src/utils/constants/employee_model.dart';
+import 'package:master_brother/src/repo/models/employee_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalDB {
