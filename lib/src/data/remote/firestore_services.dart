@@ -1,6 +1,6 @@
 import 'dart:developer';
 
- import 'package:firedart/firestore/firestore.dart';
+import 'package:firedart/firestore/firestore.dart';
 import 'package:firedart/firestore/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:master_brother/src/repo/models/product_model.dart';
@@ -78,8 +78,7 @@ class AppFirestore {
     return status;
   }
 
-  Future<Page<Document>>
-      getAllProducts() async {
+  Future<Page<Document>> getAllProducts() async {
     final db = Firestore.instance.collection('products');
     final result = await db.get();
     return result;
@@ -105,13 +104,15 @@ class ProductServices {
     final db = Firestore.instance.collection('products');
     final result = await db.get();
     for (final item in result) {
-      list.add(
-        ProductModel(
-          name: item['name'],
-          id: item['id'],
-          price: item['price'],
-        ),
-      );
+      if (item.map.isNotEmpty) {
+        list.add(
+          ProductModel(
+            name: item.map['name'],
+            id: item.map['id'],
+            price: item.map['price'],
+          ),
+        );
+      }
     }
     return list;
   }
