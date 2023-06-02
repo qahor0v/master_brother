@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firedart/firestore/firestore.dart';
 import 'package:master_brother/src/repo/models/customer_model.dart';
 
@@ -18,7 +20,19 @@ class CustomerServices {
     return customers;
   }
 
+  static Future<bool> addCustomer(CustomerModel customer) async {
+    bool status = false;
+    try {
+      final db = Firestore.instance.collection('customers');
 
+      await db.add(customer.toJson()).then((value) {
+        status = true;
+      });
+    } catch (e) {
+      log("Error", error: e);
+    }
+    return status;
+  }
 
 
 

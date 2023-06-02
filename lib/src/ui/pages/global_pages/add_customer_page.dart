@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:master_brother/src/ui/screens/when/when_loading.dart';
 import 'package:master_brother/src/ui/widgets/helper_box/sized_box.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/app_button.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/app_textfield.dart';
 import 'package:master_brother/src/ui/widgets/title_text_widget.dart';
+import 'package:master_brother/src/utils/methods/check_textfield.dart';
 
 class AddCustomerPage extends HookConsumerWidget {
   const AddCustomerPage({super.key});
@@ -58,7 +60,12 @@ class AddCustomerPage extends HookConsumerWidget {
               Center(
                 child: AppButton(
                   title: "Qo'shish".toUpperCase(),
-                  onTap: () {},
+                  onTap: () async {
+                    if (check(name) && check(phone) && check(addRess)) {
+                    } else {
+
+                    }
+                  },
                 ),
               )
             ],
