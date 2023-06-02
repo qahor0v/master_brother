@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:master_brother/src/data/remote/customer_services.dart';
+import 'package:master_brother/src/repo/models/customer_model.dart';
 import 'package:master_brother/src/ui/screens/when/when_loading.dart';
 import 'package:master_brother/src/ui/widgets/helper_box/sized_box.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/app_button.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/app_textfield.dart';
 import 'package:master_brother/src/ui/widgets/title_text_widget.dart';
+import 'package:master_brother/src/ui/widgets/toast/main.dart';
 import 'package:master_brother/src/utils/methods/check_textfield.dart';
+import 'package:master_brother/src/utils/methods/id_generator.dart';
+import 'package:master_brother/src/utils/methods/navigators.dart';
 
 class AddCustomerPage extends HookConsumerWidget {
   const AddCustomerPage({super.key});
@@ -62,8 +67,36 @@ class AddCustomerPage extends HookConsumerWidget {
                   title: "Qo'shish".toUpperCase(),
                   onTap: () async {
                     if (check(name) && check(phone) && check(addRess)) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return WhenLoading();
+                        },
+                      );
+                      CustomerServices.addCustomer(
+                        CustomerModel(
+                          id: generateID(),
+                          name: name.value.text.trim(),
+                          phoneNumber: phone.value.text.trim(),
+                          address: addRess.value.text.trim(),
+                        ),
+                      ).then((value) {
+                        if (value) {
+                          ScaffoldMessage.success(
+                            context,
+                            message: "Qo'shildi",
+                          );
+                         Future.delayed(Duration.zero, (){
+                           pop(context);
+                           pop(context);
+                         });
+                        }
+                      });
                     } else {
-
+                      ScaffoldMessage.error(
+                        context,
+                        message: "Iltimos, barcha ma'lumotlarni kiriting!",
+                      );
                     }
                   },
                 ),
