@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:master_brother/src/data/local/local_db_services.dart';
+import 'package:master_brother/src/repo/providers/local_user_provider.dart';
 import 'package:master_brother/src/ui/pages/admin_pages/pages/admin_page.dart';
 import 'package:master_brother/src/ui/pages/auth_pages/login_page.dart';
 import 'package:master_brother/src/ui/pages/creator_pages/creator_page.dart';
@@ -12,17 +14,18 @@ import 'package:master_brother/src/ui/pages/seller_pages/seller_page_home.dart';
 import 'package:master_brother/src/utils/constants/assets_paths.dart';
 import 'package:master_brother/src/utils/constants/employees.dart';
 
-class StartPage extends StatefulWidget {
+class StartPage extends StatefulHookConsumerWidget {
   const StartPage({super.key});
 
   @override
-  State<StartPage> createState() => _StartPageState();
+  ConsumerState<StartPage> createState() => _StartPageState();
 }
 
-class _StartPageState extends State<StartPage> {
+class _StartPageState extends ConsumerState<StartPage> {
   Future<void> check() async {
     final model = await LocalDB().getUserFromLocal();
     if (model != null) {
+      ref.read(localUser.notifier).state = model;
       if (model.type == type(EmployeeType.DIRECTOR).id) {
         Navigator.pushReplacementNamed(context, DirectorHome.id);
       } else if (model.type == type(EmployeeType.ADMIN).id) {

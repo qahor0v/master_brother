@@ -1,25 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:master_brother/src/data/remote/order_services.dart';
+import 'package:master_brother/src/repo/models/customer_model.dart';
+import 'package:master_brother/src/repo/models/order_model.dart';
 import 'package:master_brother/src/repo/models/product_model.dart';
+import 'package:master_brother/src/repo/providers/customer_providers.dart';
+import 'package:master_brother/src/repo/providers/local_user_provider.dart';
 import 'package:master_brother/src/ui/screens/global_screens/product_list_builder.dart';
+import 'package:master_brother/src/ui/screens/search_screens/search_bar.dart';
 import 'package:master_brother/src/ui/widgets/helper_box/sized_box.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/app_button.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/app_textfield.dart';
 import 'package:master_brother/src/ui/widgets/title_text_widget.dart';
 import 'package:master_brother/src/utils/constants/app_colors.dart';
+import 'package:master_brother/src/utils/extensions/date_time.dart';
+import 'package:master_brother/src/utils/extensions/order_status.dart';
+import 'package:master_brother/src/utils/extensions/payment_status.dart';
+import 'package:master_brother/src/utils/methods/id_generator.dart';
 
 class AddOrderPage extends HookConsumerWidget {
   const AddOrderPage({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
+    final allClients = ref.watch(getAllCustomers);
     final haveClient = useState<bool>(false);
     final phone = useState<TextEditingController>(TextEditingController());
     final addRess = useState<TextEditingController>(TextEditingController());
     final name = useState<TextEditingController>(TextEditingController());
+    final summa = useState<TextEditingController>(TextEditingController());
     final product = useState<ProductModel?>(null);
     final counter = useState<int>(0);
+    final selectedCustomer = useState<CustomerModel?>(null);
     List<Widget> dontClient = [
       AppTextField(
         controller: name.value,
@@ -37,27 +50,55 @@ class AddOrderPage extends HookConsumerWidget {
       ),
     ];
 
-    Widget selectClient() => Row(
-          children: [
-            WBox(8.0),
-            const Icon(
-              Icons.person,
-              color: mainColor,
-            ),
-            WBox(8.0),
-            const Text(
-              "Mijozni tanlash",
-              style: TextStyle(
-                color: Colors.white,
+    Widget selectClient(
+      List<CustomerModel> customers,
+      ValueNotifier<CustomerModel?> selected,
+    ) =>
+        GestureDetector(
+          onTap: () {
+            showSearch(
+              context: context,
+              delegate: CustomSearchDelegate(
+                customers: customers,
+                selected: selected,
               ),
-            ),
-            const Spacer(),
-            const Icon(
-              Icons.arrow_forward_ios_sharp,
-              color: Colors.white,
-            ),
-            WBox(8.0),
-          ],
+            );
+          },
+          child: Row(
+            children: [
+              WBox(8.0),
+              const Icon(
+                Icons.person,
+                color: mainColor,
+              ),
+              WBox(8.0),
+              Expanded(
+                child: Text(
+                  selectedCustomer.value == null
+                      ? "Mijozni tanlash"
+                      : selectedCustomer.value!.name,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              WBox(8.0),
+              Text(
+                selectedCustomer.value == null ? " " : "Boshqa Mijoz",
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 12,
+                ),
+              ),
+              const Icon(
+                Icons.arrow_forward_ios_sharp,
+                color: Colors.white70,
+              ),
+              WBox(8.0),
+            ],
+          ),
         );
 
     return Scaffold(
@@ -78,7 +119,19 @@ class AddOrderPage extends HookConsumerWidget {
               ),
               HBox(8.0),
               if (haveClient.value)
-                selectClient()
+                allClients.when(
+                  data: (data) {
+                    return selectClient(data, selectedCustomer);
+                  },
+                  error: (e, m) {
+                    return const Text("Xatolik");
+                  },
+                  loading: () {
+                    return const Center(
+                      child: CircularProgressIndicator(color: mainColor),
+                    );
+                  },
+                )
               else
                 ...dontClient.map((e) {
                   return e;
@@ -234,7 +287,7 @@ class AddOrderPage extends HookConsumerWidget {
               HBox(16.0),
               AppTextField(
                 controller: TextEditingController(),
-                title: "To'lov summasini kiriting",
+                title: "To'langan summani kiriting",
                 type: TextInputType.number,
               ),
               SwitchListTile(
@@ -252,7 +305,29 @@ class AddOrderPage extends HookConsumerWidget {
               Center(
                 child: AppButton(
                   title: "Buyurtmani Qo'shish".toUpperCase(),
-                  onTap: () {},
+                  onTap: () async {
+                    Order.addOrder(
+                      context,
+                      OrderModel(
+                        id: generateID(),
+                        createTime: Time.getNow(),
+                        customerID: selectedCustomer.value!.id,
+                        customerName: selectedCustomer.value!.name,
+                        sellerID: ref.watch(localUser)!.login,
+                        productCount: counter.value,
+                        paidSumma: int.parse(summa.value.text.trim()),
+                        productID: product.value!.id,
+                        productName: product.value!.name,
+                        productPrice: int.parse(product.value!.price),
+                        paymentStatus: paymentStatus(
+                          price: product.value!.price,
+                          payed: summa.value.text.trim(),
+                          count: counter.value,
+                        ),
+                        orderStatus: OrderStatus.progress,
+                      ),
+                    );
+                  },
                 ),
               ),
               HBox(32.0),
@@ -299,7 +374,6 @@ class SelectProduct extends HookConsumerWidget {
   void onTap(ValueNotifier<ProductModel?> product, BuildContext context,
       WidgetRef ref) {
     showDialog(
-
       context: context,
       builder: (context) {
         return ProductDialogListWidget(product: product);
