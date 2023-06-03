@@ -53,9 +53,7 @@ class ProductAdderpage extends HookConsumerWidget {
                       ProductModel(
                         name: name.text.trim(),
                         id: name.text.toLowerCase().trim(),
-                        price: int.parse(
-                          price.text.trim(),
-                        ),
+                        price: price.text.trim(),
                       ),
                     ).then((value) {
                       Navigator.pop(context);

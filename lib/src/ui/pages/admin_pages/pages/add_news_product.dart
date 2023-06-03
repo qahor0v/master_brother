@@ -21,7 +21,19 @@ class AddNewProductPage extends HookConsumerWidget {
           return ListView.builder(
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text(data[index].name),
+                title: Text(
+                  data[index].name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                subtitle: Text(
+                  "${data[index].price} so'm/dona",
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                  ),
+                ),
               );
             },
             itemCount: data.length,
