@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firedart/firestore/firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:master_brother/src/repo/models/order_model.dart';
@@ -25,5 +27,25 @@ class Order {
         );
       });
     }
+  }
+
+  static Future<List<OrderModel>> getAllOrders() async {
+    List<OrderModel> orders = [];
+    try {
+      final data = await Firestore.instance.collection('orders').get();
+      for (var item in data) {
+        log(item.map.toString());
+        try {
+          final order = OrderModel.fromJson(item.map);
+          orders.add(order);
+        } catch (e) {
+          log("Error:", error: e);
+        }
+      }
+    } catch (e) {
+      log("Error:", error: e);
+    }
+
+    return orders;
   }
 }

@@ -4,11 +4,13 @@ import 'package:iconly/iconly.dart';
 import 'package:master_brother/src/data/local/local_db_services.dart';
 import 'package:master_brother/src/ui/pages/admin_pages/screens/sdmin_sidebar.dart';
 import 'package:master_brother/src/ui/pages/global_pages/add_order_page.dart';
+import 'package:master_brother/src/ui/pages/global_pages/order_pages/in_proccess_orders_page.dart';
 import 'package:master_brother/src/utils/constants/app_colors.dart';
-
+import 'package:master_brother/src/utils/methods/navigators.dart';
 
 class AdiminPage extends StatefulWidget {
   static const String id = "admin1";
+
   const AdiminPage({super.key});
 
   @override
@@ -84,21 +86,24 @@ class _AdiminPageState extends State<AdiminPage> {
                   color: Colors.white,
                 ),
               ),
-              const ListTile(
-                leading: Icon(
+              ListTile(
+                leading: const Icon(
                   IconlyLight.time_circle,
                   color: Colors.yellowAccent,
                 ),
-                title: Text(
+                title: const Text(
                   "Jarayondagi buyurtmalar",
                   style: TextStyle(
                     color: Colors.white,
                   ),
                 ),
-                trailing: Icon(
+                trailing: const Icon(
                   IconlyLight.arrow_right,
                   color: Colors.white,
                 ),
+                onTap: () {
+                  goTo(context, const InProcessOrdersPage());
+                },
               ),
               const ListTile(
                 leading: Icon(

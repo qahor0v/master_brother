@@ -7,12 +7,14 @@ import 'package:master_brother/src/repo/models/order_model.dart';
 import 'package:master_brother/src/repo/models/product_model.dart';
 import 'package:master_brother/src/repo/providers/customer_providers.dart';
 import 'package:master_brother/src/repo/providers/local_user_provider.dart';
+import 'package:master_brother/src/repo/providers/order_providers.dart';
 import 'package:master_brother/src/ui/screens/global_screens/product_list_builder.dart';
 import 'package:master_brother/src/ui/screens/search_screens/search_bar.dart';
 import 'package:master_brother/src/ui/widgets/helper_box/sized_box.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/app_button.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/app_textfield.dart';
 import 'package:master_brother/src/ui/widgets/title_text_widget.dart';
+import 'package:master_brother/src/ui/widgets/toast/main.dart';
 import 'package:master_brother/src/utils/constants/app_colors.dart';
 import 'package:master_brother/src/utils/extensions/date_time.dart';
 import 'package:master_brother/src/utils/extensions/order_status.dart';
@@ -25,13 +27,13 @@ class AddOrderPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final allClients = ref.watch(getAllCustomers);
-    final haveClient = useState<bool>(false);
+    final haveClient = useState<bool>(true);
     final phone = useState<TextEditingController>(TextEditingController());
     final addRess = useState<TextEditingController>(TextEditingController());
     final name = useState<TextEditingController>(TextEditingController());
     final summa = useState<TextEditingController>(TextEditingController());
+    final count = useState<TextEditingController>(TextEditingController());
     final product = useState<ProductModel?>(null);
-    final counter = useState<int>(0);
     final selectedCustomer = useState<CustomerModel?>(null);
     List<Widget> dontClient = [
       AppTextField(
@@ -173,120 +175,15 @@ class AddOrderPage extends HookConsumerWidget {
                 height: 1,
                 color: secondaryColor,
               ),
-              ListTile(
-                onTap: () {
-                  counter.value = 0;
-                },
-                leading: const Icon(
-                  Icons.clear,
-                  color: mainColor,
-                ),
-                title: const Text(
-                  "Buyurma soni",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                ),
-                trailing: Text(
-                  counter.value.toString(),
-                  style: const TextStyle(color: mainColor, fontSize: 20),
-                ),
-              ),
-              Row(
-                children: [
-                  WBox(8.0),
-                  Expanded(
-                    child: AppButton(
-                      title: '+1',
-                      onTap: () {
-                        counter.value++;
-                      },
-                    ),
-                  ),
-                  WBox(8.0),
-                  Expanded(
-                    child: AppButton(
-                      title: '+10',
-                      onTap: () {
-                        counter.value += 10;
-                      },
-                    ),
-                  ),
-                  WBox(8.0),
-                  Expanded(
-                    child: AppButton(
-                      title: '+100',
-                      onTap: () {
-                        counter.value += 100;
-                      },
-                    ),
-                  ),
-                  WBox(8.0),
-                  Expanded(
-                    child: AppButton(
-                      title: '+1000',
-                      onTap: () {
-                        counter.value += 1000;
-                      },
-                    ),
-                  ),
-                  WBox(8.0),
-                ],
-              ),
-              HBox(8.0),
-              Row(
-                children: [
-                  WBox(8.0),
-                  Expanded(
-                    child: AppButton(
-                      title: '-1',
-                      onTap: () {
-                        if (counter.value > 0) {
-                          counter.value--;
-                        }
-                      },
-                    ),
-                  ),
-                  WBox(8.0),
-                  Expanded(
-                    child: AppButton(
-                      title: '-10',
-                      onTap: () {
-                        if (counter.value > 10) {
-                          counter.value -= 10;
-                        }
-                      },
-                    ),
-                  ),
-                  WBox(8.0),
-                  Expanded(
-                    child: AppButton(
-                      title: '-100',
-                      onTap: () {
-                        if (counter.value > 100) {
-                          counter.value -= 100;
-                        }
-                      },
-                    ),
-                  ),
-                  WBox(8.0),
-                  Expanded(
-                    child: AppButton(
-                      title: '-1000',
-                      onTap: () {
-                        if (counter.value > 1000) {
-                          counter.value -= 1000;
-                        }
-                      },
-                    ),
-                  ),
-                  WBox(8.0),
-                ],
+              HBox(16.0),
+              AppTextField(
+                controller: count.value,
+                title: "Buyurtma qiligan tovar soni",
+                type: TextInputType.number,
               ),
               HBox(16.0),
               AppTextField(
-                controller: TextEditingController(),
+                controller: summa.value,
                 title: "To'langan summani kiriting",
                 type: TextInputType.number,
               ),
@@ -306,27 +203,39 @@ class AddOrderPage extends HookConsumerWidget {
                 child: AppButton(
                   title: "Buyurtmani Qo'shish".toUpperCase(),
                   onTap: () async {
-                    Order.addOrder(
-                      context,
-                      OrderModel(
-                        id: generateID(),
-                        createTime: Time.getNow(),
-                        customerID: selectedCustomer.value!.id,
-                        customerName: selectedCustomer.value!.name,
-                        sellerID: ref.watch(localUser)!.login,
-                        productCount: counter.value,
-                        paidSumma: int.parse(summa.value.text.trim()),
-                        productID: product.value!.id,
-                        productName: product.value!.name,
-                        productPrice: int.parse(product.value!.price),
-                        paymentStatus: paymentStatus(
-                          price: product.value!.price,
-                          payed: summa.value.text.trim(),
-                          count: counter.value,
+                    try {
+                      Order.addOrder(
+                        context,
+                        OrderModel(
+                          id: generateID(),
+                          createTime: Time.getNow(),
+                          customerID: selectedCustomer.value == null
+                              ? name.value.text.trim()
+                              : selectedCustomer.value!.id,
+                          customerName: selectedCustomer.value!.name,
+                          sellerID: ref.watch(localUser)!.login,
+                          productCount: int.parse(count.value.text.trim()),
+                          paidSumma: int.parse(summa.value.text.trim()),
+                          productID: product.value!.id,
+                          productName: product.value!.name,
+                          productPrice: int.parse(product.value!.price),
+                          paymentStatus: paymentStatus(
+                            price: product.value!.price,
+                            payed: summa.value.text.trim(),
+                            count: int.parse(count.value.text.trim()),
+                          ),
+                          orderStatus: OrderStatus.progress,
                         ),
-                        orderStatus: OrderStatus.progress,
-                      ),
-                    );
+                      ).then((value){
+                        ref.refresh(getAllOrdersProvider);
+                      });
+                    } catch (e) {
+                      ScaffoldMessage.error(
+                        context,
+                        message:
+                            "Qandaydir xatolik mavjud. Iltimos, ma'lumotlarni tekshirib qaytadan urinib ko'ring!",
+                      );
+                    }
                   },
                 ),
               ),

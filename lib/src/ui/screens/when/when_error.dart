@@ -6,10 +6,13 @@ import 'package:master_brother/src/utils/constants/assets_paths.dart';
 
 class WhenError extends StatelessWidget {
   String value;
+
   WhenError({super.key, this.value = ''});
 
   @override
   Widget build(BuildContext context) {
-    return Lottie.asset(MyAssets.error);
+    return Center(
+      child: Lottie.asset(MyAssets.error),
+    );
   }
 }

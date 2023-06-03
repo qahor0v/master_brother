@@ -48,7 +48,7 @@ class OrderModel {
       : id = json['id'],
         createTime = json['createTime'],
         customerID = json['customerID'],
-        customerName = json['customerID'],
+        customerName = json['customerName'],
         sellerID = json['sellerID'],
         productCount = json['productCount'],
         paidSumma = json['paidSumma'],
@@ -57,5 +57,5 @@ class OrderModel {
         productPrice = json['productPrice'],
         paymentStatus = json['paymentStatus'],
         orderStatus = json['orderStatus'],
-        docID = json['docID'];
+        docID = json['docID'] ?? "";
 }

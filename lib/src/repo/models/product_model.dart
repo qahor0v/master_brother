@@ -21,6 +21,6 @@ class ProductModel {
   ProductModel.fromJson(Map<String, dynamic> json)
       : name = json['name'],
         id = json['id'],
-        docID = json['docID'],
+        docID = json['docID']??"",
         price = json['price'];
 }

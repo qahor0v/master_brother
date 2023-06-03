@@ -25,6 +25,6 @@ class CustomerModel {
       : name = json['name'],
         id = json['id'],
         phoneNumber = json['phoneNumber'],
-        docID = json['docID'],
+        docID = json['docID']??"",
         address = json['address'];
 }

@@ -14,6 +14,8 @@ class WhenLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Lottie.asset(MyAssets.loading);
+    return Center(
+      child: Lottie.asset(MyAssets.loading),
+    );
   }
 }

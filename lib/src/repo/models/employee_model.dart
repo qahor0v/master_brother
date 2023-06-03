@@ -21,6 +21,6 @@ class EmployeeModel {
   EmployeeModel.fromJson(Map<String, dynamic> json)
       : login = json['login'],
         password = json['password'],
-        docID = json['docID'],
+        docID = json['docID']??"",
         type = json['type'];
 }
