@@ -4,7 +4,10 @@ import 'package:iconly/iconly.dart';
 import 'package:master_brother/src/data/local/local_db_services.dart';
 import 'package:master_brother/src/ui/pages/admin_pages/screens/sdmin_sidebar.dart';
 import 'package:master_brother/src/ui/pages/global_pages/add_order_page.dart';
+import 'package:master_brother/src/ui/pages/global_pages/order_pages/cancelled_orders_page.dart';
 import 'package:master_brother/src/ui/pages/global_pages/order_pages/in_proccess_orders_page.dart';
+import 'package:master_brother/src/ui/pages/global_pages/order_pages/qarzs_page.dart';
+import 'package:master_brother/src/ui/pages/global_pages/order_pages/success_orders_page.dart';
 import 'package:master_brother/src/utils/constants/app_colors.dart';
 import 'package:master_brother/src/utils/methods/navigators.dart';
 
@@ -70,21 +73,24 @@ class _AdiminPageState extends State<AdiminPage> {
                   ),
                 ),
               ),
-              const ListTile(
-                leading: Icon(
+              ListTile(
+                leading: const Icon(
                   IconlyLight.shield_done,
                   color: mainColor,
                 ),
-                title: Text(
+                title: const Text(
                   "Bajarilgan buyurtmalar",
                   style: TextStyle(
                     color: Colors.white,
                   ),
                 ),
-                trailing: Icon(
+                trailing: const Icon(
                   IconlyLight.arrow_right,
                   color: Colors.white,
                 ),
+                onTap: () {
+                  goTo(context, const SuccessOrdersPage());
+                },
               ),
               ListTile(
                 leading: const Icon(
@@ -105,34 +111,40 @@ class _AdiminPageState extends State<AdiminPage> {
                   goTo(context, const InProcessOrdersPage());
                 },
               ),
-              const ListTile(
-                leading: Icon(
+              ListTile(
+                leading: const Icon(
                   IconlyLight.close_square,
                   color: Colors.redAccent,
                 ),
-                title: Text(
+                title: const Text(
                   "Bekor qilingan buyurtmalar",
                   style: TextStyle(
                     color: Colors.white,
                   ),
                 ),
-                trailing: Icon(
+                trailing: const Icon(
                   IconlyLight.arrow_right,
                   color: Colors.white,
                 ),
+                onTap: () {
+                  goTo(context, const CancelledOrdersPage());
+                },
               ),
-              const ListTile(
-                leading: Icon(
+                ListTile(
+                  onTap: (){
+                    goTo(context, const QarzedOrdersPage());
+                  },
+                leading: const Icon(
                   Icons.attach_money_outlined,
                   color: Colors.blueAccent,
                 ),
-                title: Text(
+                title: const Text(
                   "Qarzdorliklar",
                   style: TextStyle(
                     color: Colors.white,
                   ),
                 ),
-                trailing: Icon(
+                trailing: const Icon(
                   IconlyLight.arrow_right,
                   color: Colors.white,
                 ),

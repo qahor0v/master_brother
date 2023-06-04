@@ -1,3 +1,7 @@
+// ignore_for_file: unused_result
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -210,9 +214,11 @@ class AddOrderPage extends HookConsumerWidget {
                           id: generateID(),
                           createTime: Time.getNow(),
                           customerID: selectedCustomer.value == null
+                              ? generateID()
+                              : selectedCustomer.value!.id,
+                          customerName: selectedCustomer.value == null
                               ? name.value.text.trim()
                               : selectedCustomer.value!.id,
-                          customerName: selectedCustomer.value!.name,
                           sellerID: ref.watch(localUser)!.login,
                           productCount: int.parse(count.value.text.trim()),
                           paidSumma: int.parse(summa.value.text.trim()),
@@ -226,10 +232,11 @@ class AddOrderPage extends HookConsumerWidget {
                           ),
                           orderStatus: OrderStatus.progress,
                         ),
-                      ).then((value){
+                      ).then((value) {
                         ref.refresh(getAllOrdersProvider);
                       });
                     } catch (e) {
+                      log("Error:", error: e);
                       ScaffoldMessage.error(
                         context,
                         message:

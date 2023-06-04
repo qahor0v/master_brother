@@ -7,7 +7,7 @@ bool paymentStatus({
   int payed0 = int.parse(payed);
 
   try {
-    return price0 * count == payed0;
+    return price0 * count == payed0 || price0 * count > payed0;
   } catch (e) {
     return false;
   }

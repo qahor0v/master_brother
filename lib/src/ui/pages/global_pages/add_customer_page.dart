@@ -86,10 +86,10 @@ class AddCustomerPage extends HookConsumerWidget {
                             context,
                             message: "Qo'shildi",
                           );
-                         Future.delayed(Duration.zero, (){
-                           pop(context);
-                           pop(context);
-                         });
+                          Future.delayed(Duration.zero, () {
+                            pop(context);
+                            pop(context);
+                          });
                         }
                       });
                     } else {
@@ -100,7 +100,7 @@ class AddCustomerPage extends HookConsumerWidget {
                     }
                   },
                 ),
-              )
+              ),
             ],
           ),
         ),

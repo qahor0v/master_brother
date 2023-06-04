@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:master_brother/src/repo/models/order_model.dart';
 import 'package:master_brother/src/ui/widgets/loadings/dialog_loading.dart';
 import 'package:master_brother/src/ui/widgets/toast/main.dart';
+import 'package:master_brother/src/utils/extensions/order_status.dart';
 import 'package:master_brother/src/utils/methods/navigators.dart';
 
 class Order {
@@ -44,6 +45,57 @@ class Order {
       }
     } catch (e) {
       log("Error:", error: e);
+    }
+
+    return orders;
+  }
+
+  static Future<List<OrderModel>> getSuccessOrders() async {
+    List<OrderModel> orders = [];
+    try {
+      final data = await Firestore.instance.collection('orders').get();
+      for (var item in data) {
+        final order = OrderModel.fromJson(item.map);
+        if (order.orderStatus == OrderStatus.success) {
+          orders.add(order);
+        }
+      }
+    } catch (e) {
+      log("Error: ", error: e);
+    }
+
+    return orders;
+  }
+
+  static Future<List<OrderModel>> getCancelledOrders() async {
+    List<OrderModel> orders = [];
+    try {
+      final data = await Firestore.instance.collection('orders').get();
+      for (var item in data) {
+        final order = OrderModel.fromJson(item.map);
+        if (order.orderStatus == OrderStatus.cancelled) {
+          orders.add(order);
+        }
+      }
+    } catch (e) {
+      log("Error: ", error: e);
+    }
+
+    return orders;
+  }
+
+  static Future<List<OrderModel>> getQarzedOrders() async {
+    List<OrderModel> orders = [];
+    try {
+      final data = await Firestore.instance.collection('orders').get();
+      for (var item in data) {
+        final order = OrderModel.fromJson(item.map);
+        if (order.paymentStatus == false) {
+          orders.add(order);
+        }
+      }
+    } catch (e) {
+      log("Error: ", error: e);
     }
 
     return orders;
