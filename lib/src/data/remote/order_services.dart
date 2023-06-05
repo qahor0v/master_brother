@@ -100,4 +100,58 @@ class Order {
 
     return orders;
   }
+
+  static Future<bool> orderSetStatusSuccess(OrderModel order) async {
+    bool status = false;
+    final db = Firestore.instance.collection('orders');
+    await db
+        .document(order.docID)
+        .update(
+          OrderModel(
+            id: order.id,
+            createTime: order.createTime,
+            customerID: order.customerID,
+            customerName: order.customerName,
+            sellerID: order.sellerID,
+            productCount: order.productCount,
+            paidSumma: order.paidSumma,
+            productID: order.productID,
+            productName: order.productName,
+            productPrice: order.productPrice,
+            paymentStatus: order.paymentStatus,
+            orderStatus: OrderStatus.success,
+          ).toJson(),
+        )
+        .then((value) {
+      status = true;
+    });
+    return status;
+  }
+
+  static Future<bool> orderSetStatusCancelled(OrderModel order) async {
+    bool status = false;
+    final db = Firestore.instance.collection('orders');
+    await db
+        .document(order.docID)
+        .update(
+      OrderModel(
+        id: order.id,
+        createTime: order.createTime,
+        customerID: order.customerID,
+        customerName: order.customerName,
+        sellerID: order.sellerID,
+        productCount: order.productCount,
+        paidSumma: order.paidSumma,
+        productID: order.productID,
+        productName: order.productName,
+        productPrice: order.productPrice,
+        paymentStatus: order.paymentStatus,
+        orderStatus: OrderStatus.cancelled,
+      ).toJson(),
+    )
+        .then((value) {
+      status = true;
+    });
+    return status;
+  }
 }
