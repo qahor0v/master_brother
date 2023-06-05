@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:master_brother/src/data/remote/reserve_services.dart';
 import 'package:master_brother/src/repo/models/product_model.dart';
+import 'package:master_brother/src/repo/models/reserved_product_model.dart';
+import 'package:master_brother/src/repo/providers/local_user_provider.dart';
 import 'package:master_brother/src/ui/pages/global_pages/add_order_page.dart';
 import 'package:master_brother/src/ui/widgets/helper_box/sized_box.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/app_button.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/app_textfield.dart';
+import 'package:master_brother/src/ui/widgets/loadings/dialog_loading.dart';
+import 'package:master_brother/src/utils/extensions/date_time.dart';
+import 'package:master_brother/src/utils/methods/navigators.dart';
 
 class AddProductToSclad extends HookConsumerWidget {
   const AddProductToSclad({super.key});
@@ -29,7 +35,26 @@ class AddProductToSclad extends HookConsumerWidget {
               type: TextInputType.number,
             ),
             HBox(24.0),
-            AppButton(title: "Qo'shish".toUpperCase(), onTap: () {}),
+            AppButton(
+              title: "Qo'shish".toUpperCase(),
+              onTap: () async {
+                if (controller.value.text.trim().isNotEmpty &&
+                    product.value != null) {
+                  loadingDialog(context);
+                  ReserveProductModel prd = ReserveProductModel(
+                    productID: product.value!.id,
+                    count: int.parse(controller.value.text.trim()),
+                    productName: product.value!.name,
+                    addedTime: Time.getNow(),
+                    employeeID: ref.watch(localUser)!.login,
+                  );
+                  Reserve.addToReserve(prd).then((value) {
+                    pop(context);
+                    pop(context);
+                  });
+                }
+              },
+            ),
           ],
         ),
       ),

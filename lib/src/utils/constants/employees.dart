@@ -3,6 +3,7 @@
 class Employee {
   String name;
   String id;
+
   Employee({
     required this.name,
     required this.id,
@@ -28,6 +29,12 @@ class Employee {
     Employee(name: "Ishlab chiqaruvchi xodim", id: "creator"),
     Employee(name: "Omborxona Xodimi", id: "sklad"),
   ];
+
+  static const String admin = 'admin';
+  static const String director = 'main';
+  static const String seller = 'seller';
+  static const String creator = 'creator';
+  static const String sclad = 'sklad';
 }
 
 enum EmployeeType {

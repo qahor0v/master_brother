@@ -5,6 +5,7 @@ import 'package:master_brother/src/utils/constants/app_colors.dart';
 
 class CreatorPage extends HookConsumerWidget {
   static const String id = 'id1223';
+
   const CreatorPage({super.key});
 
   @override
@@ -12,6 +13,11 @@ class CreatorPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Ishlab chiqarish"),
+      ),
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          return ListTile();
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
