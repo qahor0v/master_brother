@@ -30,8 +30,10 @@ class DirectorHome extends HookConsumerWidget {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex.value,
         selectedIconTheme: const IconThemeData(color: mainColor),
+        unselectedIconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: kBgColor,
         onTap: (int index) {
           currentIndex.value = index;

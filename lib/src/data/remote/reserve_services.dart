@@ -117,4 +117,19 @@ class Reserve {
       return OrderStatus.not;
     }
   }
+
+  static Future<List<StorageProduct>> getAllStorageProducts() async {
+    List<StorageProduct> products = [];
+    final storage = await Firestore.instance.collection('storage').get();
+    for (var item in storage) {
+      try {
+        final prd = StorageProduct.fromJson(item.map);
+        products.add(prd);
+      } catch (e) {
+        log("Error: ", error: e);
+      }
+    }
+
+    return products;
+  }
 }

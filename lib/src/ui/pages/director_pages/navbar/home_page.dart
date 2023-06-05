@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:master_brother/src/ui/widgets/helper_box/sliver_box.dart';
-import 'package:master_brother/src/ui/widgets/selled_product_widget.dart';
-import 'package:master_brother/src/ui/widgets/title_text_widget.dart';
-import 'package:master_brother/src/ui/widgets/today_monitoring_widget.dart';
+import 'package:iconly/iconly.dart';
+import 'package:master_brother/src/repo/providers/product_providers.dart';
+import 'package:master_brother/src/ui/widgets/helper_box/sized_box.dart';
+import 'package:master_brother/src/ui/widgets/helper_widgets/title.dart';
+import 'package:master_brother/src/utils/constants/app_colors.dart';
 
 class DirectorHomePage extends StatefulHookConsumerWidget {
   const DirectorHomePage({super.key});
@@ -22,61 +23,167 @@ class _DirectorHomePageState extends ConsumerState<DirectorHomePage> {
             left: 16.0,
             right: 16.0,
           ),
-          child: CustomScrollView(
-            slivers: [
-              SBox(12.0),
-              const TitleText(
-                title: 'Bugungi hisobot',
-              ),
-              SBox(8.0),
-              const TodayMonitoringWidgetDirector(),
-              SBox(24.0),
-              const TitleText(
-                title: 'Moliyaviy hisobot',
-              ),
-              SBox(8.0),
-              const TodayMonitoringWidgetDirectorSumma(),
-              SBox(24.0),
-              const TitleText(
-                title: 'Bugun sotilgan tovarlar',
-              ),
-              SBox(8.0),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: 10,
-                  (context, index) {
-                    return const SelledProductCard();
-                  },
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppTitle("Bugungi buyurtmalar"),
+                const ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(
+                    IconlyLight.shield_done,
+                    color: mainColor,
+                  ),
+                  title: Text(
+                    "Bajarilgan buyurtmalar",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  trailing: Text(
+                    "18 ta",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              ),
-              SBox(16.0),
-              const TitleText(
-                title: 'Oylik hisobot',
-              ),
-              SBox(8.0),
-              const TodayMonitoringWidgetDirector(),
-              SBox(24.0),
-              const TitleText(
-                title: 'Oylik moliyaviy hisobot',
-              ),
-              SBox(8.0),
-              const TodayMonitoringWidgetDirectorSumma(
-                isMonth: true,
-              ),
-              SBox(24.0),
-              const TitleText(
-                title: 'Sotilgan tovarlar',
-              ),
-              SBox(8.0),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: 10,
-                  (context, index) {
-                    return const SelledProductCard();
-                  },
+                const ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(
+                    IconlyLight.time_circle,
+                    color: Colors.yellowAccent,
+                  ),
+                  title: Text(
+                    "Jarayondagi buyurtmalar",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  trailing: Text(
+                    "18 ta",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                const ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(
+                    IconlyLight.close_square,
+                    color: Colors.redAccent,
+                  ),
+                  title: Text(
+                    "Bekor qilingan buyurtmalar",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  trailing: Text(
+                    "18 ta",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                HBox(16.0),
+                AppTitle("Bugungi moliyaviy hisobot"),
+                const ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(
+                    Icons.attach_money,
+                    color: mainColor,
+                  ),
+                  title: Text(
+                    "Qilingan to'lovlar",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  trailing: Text(
+                    "18 so'm",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(
+                    Icons.attach_money,
+                    color: Colors.yellowAccent,
+                  ),
+                  title: Text(
+                    "Kutilayotgan to'lovlar",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  trailing: Text(
+                    "18 so'm",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(
+                    Icons.attach_money,
+                    color: Colors.redAccent,
+                  ),
+                  title: Text(
+                    "Qarzdorliklar",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  trailing: Text(
+                    "18 so'm",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                HBox(16.0),
+                ref.watch(getAllStorageProducts).when(
+                      data: (data) {
+                        return Column(
+                          children: [
+                            data.isNotEmpty
+                                ? AppTitle("Omborxona holati")
+                                : HBox(0.0),
+                            ...List<Widget>.generate(data.length, (index) {
+                              return ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                leading: const Icon(
+                                  Icons.attach_money,
+                                  color: Colors.redAccent,
+                                ),
+                                title: Text(
+                                  data[index].name,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                trailing: Text(
+                                  "${data[index].count} ta maraud",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              );
+                            })
+                          ],
+                        );
+                      },
+                      error: (e, m) {
+                        return HBox(0.0);
+                      },
+                      loading: () => HBox(0.0),
+                    ),
+              ],
+            ),
           ),
         ),
       ),

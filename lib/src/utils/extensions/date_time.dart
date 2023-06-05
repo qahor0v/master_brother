@@ -21,4 +21,20 @@ class Time {
       return true;
     }
   }
+
+  static bool isToday(String time) {
+    final res = time.split('-');
+    final year = res[0];
+    final month = res[1];
+    final day = res[2];
+    final now = DateTime.now();
+
+    if (year == "${now.year}" &&
+        month == "${now.month}" &&
+        day == "${now.day}") {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

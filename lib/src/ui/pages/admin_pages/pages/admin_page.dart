@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:master_brother/src/data/local/local_db_services.dart';
 import 'package:master_brother/src/ui/pages/admin_pages/screens/sdmin_sidebar.dart';
+import 'package:master_brother/src/ui/pages/auth_pages/start_page.dart';
 import 'package:master_brother/src/ui/pages/global_pages/add_order_page.dart';
 import 'package:master_brother/src/ui/pages/global_pages/order_pages/cancelled_orders_page.dart';
 import 'package:master_brother/src/ui/pages/global_pages/order_pages/in_proccess_orders_page.dart';
@@ -30,6 +31,7 @@ class _AdiminPageState extends State<AdiminPage> {
           IconButton(
             onPressed: () async {
               await LocalDB().logout().then((value) {
+                Navigator.pushReplacementNamed(context, StartPage.id);
                 log("logouted");
               });
             },

@@ -15,6 +15,8 @@ import 'package:master_brother/src/utils/constants/assets_paths.dart';
 import 'package:master_brother/src/utils/constants/employees.dart';
 
 class StartPage extends StatefulHookConsumerWidget {
+  static const String id = "start1";
+
   const StartPage({super.key});
 
   @override
