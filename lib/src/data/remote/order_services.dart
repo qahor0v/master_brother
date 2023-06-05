@@ -6,6 +6,7 @@ import 'package:master_brother/src/repo/models/order_model.dart';
 import 'package:master_brother/src/ui/widgets/loadings/dialog_loading.dart';
 import 'package:master_brother/src/ui/widgets/toast/main.dart';
 import 'package:master_brother/src/utils/extensions/order_status.dart';
+import 'package:master_brother/src/utils/extensions/payment_status.dart';
 import 'package:master_brother/src/utils/methods/navigators.dart';
 
 class Order {
@@ -134,22 +135,62 @@ class Order {
     await db
         .document(order.docID)
         .update(
-      OrderModel(
-        id: order.id,
-        createTime: order.createTime,
-        customerID: order.customerID,
-        customerName: order.customerName,
-        sellerID: order.sellerID,
-        productCount: order.productCount,
-        paidSumma: order.paidSumma,
-        productID: order.productID,
-        productName: order.productName,
-        productPrice: order.productPrice,
-        paymentStatus: order.paymentStatus,
-        orderStatus: OrderStatus.cancelled,
-      ).toJson(),
-    )
+          OrderModel(
+            id: order.id,
+            createTime: order.createTime,
+            customerID: order.customerID,
+            customerName: order.customerName,
+            sellerID: order.sellerID,
+            productCount: order.productCount,
+            paidSumma: order.paidSumma,
+            productID: order.productID,
+            productName: order.productName,
+            productPrice: order.productPrice,
+            paymentStatus: order.paymentStatus,
+            orderStatus: OrderStatus.cancelled,
+          ).toJson(),
+        )
         .then((value) {
+      status = true;
+    });
+    return status;
+  }
+
+  static Future<bool> changeOrderPayment(OrderModel order, int payment) async {
+    bool status = false;
+    final db = Firestore.instance.collection('orders');
+    await db
+        .document(order.docID)
+        .update(
+          OrderModel(
+            id: order.id,
+            createTime: order.createTime,
+            customerID: order.customerID,
+            customerName: order.customerName,
+            sellerID: order.sellerID,
+            productCount: order.productCount,
+            paidSumma: payment,
+            productID: order.productID,
+            productName: order.productName,
+            productPrice: order.productPrice,
+            paymentStatus: paymentStatus(
+              price: order.productPrice.toString(),
+              payed: payment.toString(),
+              count: order.productCount,
+            ),
+            orderStatus: OrderStatus.cancelled,
+          ).toJson(),
+        )
+        .then((value) {
+      status = true;
+    });
+    return status;
+  }
+
+  static Future<bool> deleteOrder(OrderModel order) async {
+    bool status = false;
+    final db = Firestore.instance.collection('orders');
+    await db.document(order.docID).delete().then((value) {
       status = true;
     });
     return status;

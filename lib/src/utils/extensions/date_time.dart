@@ -10,4 +10,15 @@ class Time {
     now = '$year-$month-$day-$hour-$min';
     return now;
   }
+
+  static bool permission() {
+    final DateTime now = DateTime.now();
+    final hour = now.hour;
+    //final minute = now.minute;
+    if (hour < 6 && hour >= 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }
