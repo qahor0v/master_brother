@@ -45,17 +45,17 @@ class OrderModel {
       };
 
   OrderModel.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        createTime = json['createTime'],
-        customerID = json['customerID'],
-        customerName = json['customerName'],
-        sellerID = json['sellerID'],
-        productCount = json['productCount'],
-        paidSumma = json['paidSumma'],
-        productID = json['productID'],
-        productName = json['productID'],
-        productPrice = json['productPrice'],
-        paymentStatus = json['paymentStatus'],
-        orderStatus = json['orderStatus'],
+      : id = json['id']??"",
+        createTime = json['createTime']??"",
+        customerID = json['customerID']??"",
+        customerName = json['customerName']??"",
+        sellerID = json['sellerID']??"",
+        productCount = json['productCount']??0,
+        paidSumma = json['paidSumma']??0,
+        productID = json['productID']??"",
+        productName = json['productID']??"",
+        productPrice = json['productPrice']??0,
+        paymentStatus = json['paymentStatus']??false,
+        orderStatus = json['orderStatus']??1,
         docID = json['docID'] ?? "";
 }

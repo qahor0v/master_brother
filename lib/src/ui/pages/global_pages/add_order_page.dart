@@ -234,6 +234,10 @@ class AddOrderPage extends HookConsumerWidget {
                         ),
                       ).then((value) {
                         ref.refresh(getAllOrdersProvider);
+                        ref.refresh(getWaitingOrdersProvider);
+                        ref.refresh(getCancelledOrdersProvider);
+                        ref.refresh(getQarzedOrdersProviders);
+                        ref.refresh(getSuccessOrdersProvider);
                       });
                     } catch (e) {
                       log("Error:", error: e);

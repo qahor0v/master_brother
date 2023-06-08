@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:master_brother/src/data/local/local_db_services.dart';
 import 'package:master_brother/src/ui/pages/auth_pages/start_page.dart';
+import 'package:master_brother/src/ui/pages/global_pages/add_order_page.dart';
 import 'package:master_brother/src/ui/pages/global_pages/add_worder.dart';
 import 'package:master_brother/src/ui/widgets/helper_box/sized_box.dart';
 import 'package:master_brother/src/ui/widgets/toast/main.dart';
@@ -24,6 +25,9 @@ class _EditsPageState extends ConsumerState<EditsPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              myTile("Buyurtma qo'shish", () {
+                goTo(context, const AddOrderPage());
+              }),
               myTile("Ishchi qo'shish", () {
                 goTo(context, const AddWorkerPage());
               }),
