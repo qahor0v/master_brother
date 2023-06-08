@@ -11,6 +11,11 @@ final getSuccessOrdersProvider = FutureProvider((ref) async {
   return result;
 });
 
+final getWaitingOrdersProvider = FutureProvider((ref) async {
+  final result = await Order.getWaitingOrders();
+  return result;
+});
+
 final getCancelledOrdersProvider = FutureProvider((ref) async {
   final result = await Order.getCancelledOrders();
   return result;

@@ -1,6 +1,4 @@
-import 'dart:developer';
-
-import 'package:firedart/firestore/firestore.dart';
+ import 'package:firedart/firestore/firestore.dart';
 import 'package:firedart/firestore/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:master_brother/src/repo/models/product_model.dart';
@@ -29,11 +27,21 @@ class AppFirestore {
     return employees;
   }
 
-  Future<List<EmployeeModel>> getAllEmployees() async {
+  Future<List<EmployeeModel>> getAllEmployees(bool useAdmin) async {
     final db = await Firestore.instance.collection('employees').get();
     List<EmployeeModel> employees = [];
     for (var emps in db) {
-      if (emps['type'] != 'admin') {
+      if (!useAdmin) {
+        if (emps['type'] != 'admin') {
+          employees.add(
+            EmployeeModel(
+              login: emps['login'],
+              password: emps['password'],
+              type: emps['type'],
+            ),
+          );
+        }
+      } else {
         employees.add(
           EmployeeModel(
             login: emps['login'],
@@ -86,4 +94,3 @@ class AppFirestore {
     return result;
   }
 }
-

@@ -66,6 +66,21 @@ class Order {
     }
 
     return orders;
+  }  static Future<List<OrderModel>> getWaitingOrders() async {
+    List<OrderModel> orders = [];
+    try {
+      final data = await Firestore.instance.collection('orders').get();
+      for (var item in data) {
+        final order = OrderModel.fromJson(item.map);
+        if (order.orderStatus == OrderStatus.progress) {
+          orders.add(order);
+        }
+      }
+    } catch (e) {
+      log("Error: ", error: e);
+    }
+
+    return orders;
   }
 
   static Future<List<OrderModel>> getCancelledOrders() async {

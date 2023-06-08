@@ -9,12 +9,14 @@ import 'package:master_brother/src/utils/constants/app_colors.dart';
 import 'package:master_brother/src/utils/constants/assets_paths.dart';
 import 'package:master_brother/src/repo/models/employee_model.dart';
 
-
 class AddEmployeeLoadingWidget extends HookConsumerWidget {
+  final bool isDirector;
   final EmployeeModel model;
+
   const AddEmployeeLoadingWidget({
     super.key,
     required this.model,
+    required this.isDirector,
   });
 
   @override
@@ -26,7 +28,7 @@ class AddEmployeeLoadingWidget extends HookConsumerWidget {
         data: (data) {
           log("$data");
           if (data) {
-            ref.refresh(getAllEmployeesProvider);
+            ref.refresh(getAllEmployeesProvider(isDirector));
             Future.delayed(const Duration(seconds: 2), () {
               Navigator.pop(context);
             }).then((value) {

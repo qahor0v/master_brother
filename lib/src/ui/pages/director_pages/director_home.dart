@@ -24,7 +24,7 @@ class DirectorHome extends HookConsumerWidget {
         controller: controller.value,
         children: const [
           DirectorHomePage(),
-          WorkersPage(),
+          WorkersPage(isDirector: true),
           StatsPage(),
           EditsPage()
         ],

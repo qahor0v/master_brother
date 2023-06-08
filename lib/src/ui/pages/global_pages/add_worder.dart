@@ -11,7 +11,10 @@ import 'package:master_brother/src/utils/constants/employees.dart';
 class AddWorkerPage extends HookConsumerWidget {
   final bool isAdmin;
 
-  const AddWorkerPage({super.key, this.isAdmin = false});
+  const AddWorkerPage({
+    super.key,
+    this.isAdmin = false,
+  });
 
   @override
   Widget build(BuildContext context, ref) {
@@ -154,6 +157,7 @@ class AddWorkerPage extends HookConsumerWidget {
                           password: password.text.trim(),
                           type: selectedEmployee.value.id,
                         ),
+                        isDirector: !isAdmin,
                       ),
                     );
                   } else {

@@ -13,7 +13,7 @@ class AdminEmployeeStatsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final alls = ref.watch(getAllEmployeesProvider);
+    final alls = ref.watch(getAllEmployeesProvider(false));
     return Scaffold(
       appBar: AppBar(
         title: const Text("Xodimlar"),
