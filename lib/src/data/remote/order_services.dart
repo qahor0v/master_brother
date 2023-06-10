@@ -36,9 +36,9 @@ class Order {
     try {
       final data = await Firestore.instance.collection('orders').get();
       for (var item in data) {
-        log(item.map.toString());
-        try {
-          final order = OrderModel.fromJson(item.map);
+         try {
+          OrderModel order = OrderModel.fromJson(item.map);
+          order.docID = item.id;
           orders.add(order);
         } catch (e) {
           log("Error:", error: e);
@@ -56,7 +56,8 @@ class Order {
     try {
       final data = await Firestore.instance.collection('orders').get();
       for (var item in data) {
-        final order = OrderModel.fromJson(item.map);
+        OrderModel order = OrderModel.fromJson(item.map);
+        order.docID = item.id;
         if (order.orderStatus == OrderStatus.success) {
           orders.add(order);
         }
@@ -71,7 +72,8 @@ class Order {
     try {
       final data = await Firestore.instance.collection('orders').get();
       for (var item in data) {
-        final order = OrderModel.fromJson(item.map);
+        OrderModel order = OrderModel.fromJson(item.map);
+        order.docID = item.id;
         if (order.orderStatus == OrderStatus.progress) {
           orders.add(order);
         }
@@ -88,7 +90,8 @@ class Order {
     try {
       final data = await Firestore.instance.collection('orders').get();
       for (var item in data) {
-        final order = OrderModel.fromJson(item.map);
+        OrderModel order = OrderModel.fromJson(item.map);
+        order.docID = item.id;
         if (order.orderStatus == OrderStatus.cancelled) {
           orders.add(order);
         }
@@ -105,7 +108,8 @@ class Order {
     try {
       final data = await Firestore.instance.collection('orders').get();
       for (var item in data) {
-        final order = OrderModel.fromJson(item.map);
+        OrderModel order = OrderModel.fromJson(item.map);
+        order.docID = item.id;
         if (order.paymentStatus == false) {
           orders.add(order);
         }

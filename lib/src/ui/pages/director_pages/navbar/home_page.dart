@@ -4,6 +4,7 @@ import 'package:iconly/iconly.dart';
 import 'package:master_brother/src/repo/providers/order_providers.dart';
 import 'package:master_brother/src/repo/providers/pament_providers.dart';
 import 'package:master_brother/src/repo/providers/product_providers.dart';
+import 'package:master_brother/src/ui/pages/director_pages/director_home.dart';
 import 'package:master_brother/src/ui/pages/global_pages/order_pages/open_orders_list.dart';
 import 'package:master_brother/src/ui/widgets/helper_box/sized_box.dart';
 import 'package:master_brother/src/ui/widgets/helper_widgets/title.dart';
@@ -22,6 +23,20 @@ class _DirectorHomePageState extends ConsumerState<DirectorHomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: AppTitle("Bugungi buyurtmalar"),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, DirectorHome.id);
+              },
+              icon: const Icon(
+                Icons.refresh,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
         body: Padding(
           padding: const EdgeInsets.only(
             left: 16.0,
@@ -32,7 +47,6 @@ class _DirectorHomePageState extends ConsumerState<DirectorHomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppTitle("Bugungi buyurtmalar"),
                 ref.watch(getSuccessOrdersProvider).when(
                       data: (data) {
                         return ListTile(

@@ -4,7 +4,7 @@ class OrderStatus {
   static const int progress = 1;
   static const int not = -1;
 
-  String status(int code) {
+  static String status(int code) {
     if (code == 100) {
       return "Bajarilgan";
     } else if (code == 0) {

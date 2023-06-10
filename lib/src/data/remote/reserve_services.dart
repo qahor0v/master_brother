@@ -16,10 +16,12 @@ class Reserve {
     final db = Firestore.instance.collection('reserve');
     final storage = await Firestore.instance.collection('storage').get();
     await db.add(product.toJson()).then((value) async {
+      bool have = false;
       for (var item in storage) {
         try {
           final pr = StorageProduct.fromJson(item.map);
           if (pr.id == product.productID) {
+            have = true;
             final updating = StorageProduct(
               name: pr.name,
               id: pr.id,
@@ -38,6 +40,17 @@ class Reserve {
         } catch (e) {
           log("Error: ", error: e);
         }
+      }
+      if (have == false) {
+        final storage = Firestore.instance.collection('storage');
+        storage.add(
+          StorageProduct(
+            name: product.productName,
+            id: product.productID,
+            lastUpdated: Time.getNow(),
+            count: product.count,
+          ).toJson(),
+        );
       }
     });
     return status;
@@ -123,7 +136,9 @@ class Reserve {
     final storage = await Firestore.instance.collection('storage').get();
     for (var item in storage) {
       try {
-        final prd = StorageProduct.fromJson(item.map);
+        log("${item.map}");
+        StorageProduct prd = StorageProduct.fromJson(item.map);
+        prd.docID = item.id;
         products.add(prd);
       } catch (e) {
         log("Error: ", error: e);

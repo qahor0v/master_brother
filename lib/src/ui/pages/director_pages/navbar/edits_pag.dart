@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:master_brother/src/data/local/local_db_services.dart';
+import 'package:master_brother/src/ui/pages/admin_pages/pages/add_news_product.dart';
+import 'package:master_brother/src/ui/pages/admin_pages/pages/edit_price_page.dart';
 import 'package:master_brother/src/ui/pages/auth_pages/start_page.dart';
 import 'package:master_brother/src/ui/pages/global_pages/add_order_page.dart';
 import 'package:master_brother/src/ui/pages/global_pages/add_worder.dart';
+import 'package:master_brother/src/ui/pages/global_pages/employee_pages/delete_employee_page.dart';
 import 'package:master_brother/src/ui/widgets/helper_box/sized_box.dart';
 import 'package:master_brother/src/ui/widgets/toast/main.dart';
 import 'package:master_brother/src/utils/methods/navigators.dart';
@@ -33,13 +36,19 @@ class _EditsPageState extends ConsumerState<EditsPage> {
               }),
               myTile(
                 "Ishchini o'chirish",
-                () {},
+                () {
+                  goTo(context, DeleteEmployeePage());
+                },
                 icon: Icons.delete_outline,
               ),
-              myTile("Tovar qo'shish", () {}),
+              myTile("Tovar qo'shish", () {
+                goTo(context, const AddNewProductPage());
+              }),
               myTile(
                 "Tovar narxini o'zgartirish",
-                () {},
+                () {
+                  goTo(context, const EditPricePageAdmin());
+                },
                 icon: Icons.edit_note_rounded,
               ),
               myTile(

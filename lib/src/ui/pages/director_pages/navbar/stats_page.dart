@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:master_brother/src/ui/widgets/helper_box/sized_box.dart';
 import 'package:master_brother/src/utils/constants/app_colors.dart';
 
 class StatsPage extends StatefulWidget {
@@ -14,9 +15,13 @@ class _StatsPageState extends State<StatsPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Monitoring"),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
+              HBox(12.0),
               SizedBox(
                 height: 400,
                 width: double.infinity,
@@ -34,6 +39,17 @@ class _StatsPageState extends State<StatsPage> {
                   ),
                 ),
               ),
+              HBox(20.0),
+              const Center(
+                child: Text(
+                  "Yaqinda ishga tushiriladi",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                  ),
+                ),
+              )
             ],
           ),
         ),
