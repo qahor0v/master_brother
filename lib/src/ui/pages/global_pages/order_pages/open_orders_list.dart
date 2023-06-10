@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:master_brother/src/repo/models/order_model.dart';
+import 'package:master_brother/src/ui/pages/global_pages/order_pages/open_order_page.dart';
+import 'package:master_brother/src/utils/methods/navigators.dart';
 
 class OpenOrdersListPage extends StatelessWidget {
   final List<OrderModel> orders;
@@ -31,6 +33,9 @@ class OpenOrdersListPage extends StatelessWidget {
               itemCount: orders.length,
               itemBuilder: (context, index) {
                 return ListTile(
+                  onTap: () {
+                    goTo(context, OpenOrderPage(order: orders[index]));
+                  },
                   leading: const Icon(
                     Icons.balance_outlined,
                     color: Colors.white,

@@ -208,31 +208,29 @@ class AddOrderPage extends HookConsumerWidget {
                   title: "Buyurtmani Qo'shish".toUpperCase(),
                   onTap: () async {
                     try {
-                      Order.addOrder(
-                        context,
-                        OrderModel(
-                          id: generateID(),
-                          createTime: Time.getNow(),
-                          customerID: selectedCustomer.value == null
-                              ? generateID()
-                              : selectedCustomer.value!.id,
-                          customerName: selectedCustomer.value == null
-                              ? name.value.text.trim()
-                              : selectedCustomer.value!.id,
-                          sellerID: ref.watch(localUser)!.login,
-                          productCount: int.parse(count.value.text.trim()),
-                          paidSumma: int.parse(summa.value.text.trim()),
-                          productID: product.value!.id,
-                          productName: product.value!.name,
-                          productPrice: int.parse(product.value!.price),
-                          paymentStatus: paymentStatus(
-                            price: product.value!.price,
-                            payed: summa.value.text.trim(),
-                            count: int.parse(count.value.text.trim()),
-                          ),
-                          orderStatus: OrderStatus.progress,
+                      final order = OrderModel(
+                        id: generateID(),
+                        createTime: Time.getNow(),
+                        customerID: selectedCustomer.value == null
+                            ? generateID()
+                            : selectedCustomer.value!.id,
+                        customerName: selectedCustomer.value == null
+                            ? name.value.text.trim()
+                            : selectedCustomer.value!.name,
+                        sellerID: ref.watch(localUser)!.login,
+                        productCount: int.parse(count.value.text.trim()),
+                        paidSumma: int.parse(summa.value.text.trim()),
+                        productID: product.value!.id,
+                        productName: product.value!.name,
+                        productPrice: int.parse(product.value!.price),
+                        paymentStatus: paymentStatus(
+                          price: product.value!.price,
+                          payed: summa.value.text.trim(),
+                          count: int.parse(count.value.text.trim()),
                         ),
-                      ).then((value) {
+                        orderStatus: OrderStatus.progress,
+                      );
+                      Order.addOrder(context, order).then((value) {
                         ref.refresh(getAllOrdersProvider);
                         ref.refresh(getWaitingOrdersProvider);
                         ref.refresh(getCancelledOrdersProvider);
@@ -241,6 +239,7 @@ class AddOrderPage extends HookConsumerWidget {
                       });
                     } catch (e) {
                       log("Error:", error: e);
+
                       ScaffoldMessage.error(
                         context,
                         message:
