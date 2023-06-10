@@ -56,10 +56,7 @@ class GetProductFromSclad extends HookConsumerWidget {
                       ScaffoldMessage.success(context, message: "Qo'shildi!");
                       pop(context);
                       ref.refresh(getAllReservedProductsProvider);
-                      Navigator.pushReplacementNamed(
-                        context,
-                        ScladerHomePage.id,
-                      );
+
                     });
                   } catch (e) {
                     log("Error in adding to reserve: ", error: e);

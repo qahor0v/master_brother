@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:master_brother/src/data/local/local_db_services.dart';
 import 'package:master_brother/src/repo/providers/reserve_providers.dart';
+import 'package:master_brother/src/ui/pages/auth_pages/start_page.dart';
 import 'package:master_brother/src/ui/pages/sclader_pages/get_product_page.dart';
 import 'package:master_brother/src/ui/screens/when/when_error.dart';
 import 'package:master_brother/src/ui/screens/when/when_loading.dart';
@@ -16,6 +20,20 @@ class ScladerHomePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Omborxona"),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await LocalDB().logout().then((value) {
+                Navigator.pushReplacementNamed(context, StartPage.id);
+                log("logouted");
+              });
+            },
+            icon: Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
